@@ -1,23 +1,30 @@
-const BASE = "https://api.sansekai.my.id/api";
 
-fetch(`${BASE}/anime/latest`)
+<script>
+fetch("https://animedoku.vercel.app/api/latest")
   .then(res => res.json())
   .then(json => {
-    const list = document.getElementById("anime-list");
+    const list = document.getElementById("list");
 
-    json.data.forEach(anime => {
-      const div = document.createElement("div");
-      div.className = "card";
+    // DEBUG: pastiin datanya kebaca
+    console.log(json);
 
-      div.innerHTML = `
-        <img src="${anime.thumbnail}">
-        <h4>${anime.title}</h4>
+    // KARENA API NGEBALIKIN ARRAY LANGSUNG
+    const data = Array.isArray(json) ? json : json.data;
+
+    data.forEach(anime => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img src="${anime.cover}" />
+        <h3>${anime.judul}</h3>
       `;
 
-      list.appendChild(div);
+      list.appendChild(card);
     });
   })
   .catch(err => {
-    document.body.innerHTML = "API error 😭";
+    document.body.innerHTML = "Frontend error 😭<br>" + err;
     console.error(err);
   });
+</script>
