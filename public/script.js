@@ -6,13 +6,17 @@ fetch("/api/latest")
     list.innerHTML = "";
 
     data.forEach(anime => {
-      const a = document.createElement("a");
-      a.href = `detail.html?id=${anime.id}`;
-      a.textContent = anime.judul;
-      a.style.display = "block";
-      a.style.color = "#fff";
-      a.style.marginBottom = "8px";
-      list.appendChild(a);
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <a href="detail.html?id=${anime.id}">
+          <img src="${anime.cover}" alt="${anime.judul}">
+          <h3>${anime.judul}</h3>
+        </a>
+      `;
+
+      list.appendChild(card);
     });
   })
   .catch(err => {
