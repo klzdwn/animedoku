@@ -11,10 +11,15 @@ fetch("https://api.sansekai.my.id/api/anime/detail?url=" + encodeURIComponent(ur
   .then(json => {
     const data = json.data || json;
 
+    if (!data || !data.judul) {
+      document.body.innerHTML = "Detail tidak tersedia";
+      return;
+    }
+
     document.getElementById("title").textContent = data.judul;
-    document.getElementById("cover").src = data.cover;
+    document.getElementById("cover").src = data.cover || "";
     document.getElementById("sinopsis").textContent =
-      data.sinopsis || "Tidak ada sinopsis";
+      data.sinopsis || "Tidak ada sinopsis.";
 
     const ul = document.getElementById("episodes");
     ul.innerHTML = "";
