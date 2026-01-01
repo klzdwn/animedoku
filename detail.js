@@ -1,16 +1,36 @@
+
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("slug");
 
-const API = "https://animedoku.vercel.app/api/detail?slug=" + slug;
+if (!slug) {
+  document.body.innerHTML = "Slug tidak ditemukan 😭";
+}
 
-fetch(API)
-  .then(r => r.json())
-  .then(data => {
+fetch("https://animedoku.vercel.app/api/detail?slug=" + slug)
+  .then(res => res.json())
+  .then(json => {
+    console.log("DETAIL API:", json);
+
+    // AMBIL DATA YANG BENAR
+    const data = json.data || json;
+
+    if (!data || !data.judul) {
+      document.body.innerHTML = "Data detail kosong 😭";
+      return;
+    }
+
     document.getElementById("title").textContent = data.judul;
     document.getElementById("cover").src = data.cover;
-    document.getElementById("sinopsis").textContent = data.sinopsis;
+    document.getElementById("sinopsis").textContent =
+      data.sinopsis || "Tidak ada sinopsis.";
 
     const list = document.getElementById("episode-list");
+    list.innerHTML = "";
+
+    if (!Array.isArray(data.episode)) {
+      list.innerHTML = "<li>Episode tidak tersedia</li>";
+      return;
+    }
 
     data.episode.forEach(ep => {
       const li = document.createElement("li");
@@ -22,6 +42,7 @@ fetch(API)
       list.appendChild(li);
     });
   })
-  .catch(() => {
+  .catch(err => {
+    console.error(err);
     document.body.innerHTML = "Gagal load detail 😭";
   });
