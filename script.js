@@ -26,7 +26,7 @@ fetch(API_URL)
       card.className = "card";
 
       card.innerHTML = `
-  <a href="detail.html?slug=${anime.slug}">
+  <a href="detail.html?url=${encodeURIComponent(anime.url)}">
     <img src="${anime.cover}">
     <h3>${anime.judul}</h3>
   </a>
