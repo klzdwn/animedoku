@@ -1,36 +1,28 @@
 
 const API = "https://animedoku.vercel.app/api/latest";
 
-const list = document.getElementById("list");
 const status = document.getElementById("status");
+const list = document.getElementById("list");
 
 fetch(API)
   .then(res => res.json())
   .then(data => {
+    console.log("API DATA:", data);
+
     if (!Array.isArray(data)) {
-      status.textContent = "Data API tidak valid";
+      status.textContent = "Data API bukan array";
       return;
     }
 
     status.textContent = "";
-    list.innerHTML = "";
 
     data.forEach(anime => {
-      if (!anime.slug) return;
-
       const div = document.createElement("div");
-      div.className = "card";
-
-      div.innerHTML = `
-        <a href="detail.html?slug=${anime.slug}">
-          <img src="${anime.cover}">
-          <h3>${anime.judul}</h3>
-        </a>
-      `;
-
+      div.textContent = anime.judul;
       list.appendChild(div);
     });
   })
-  .catch(() => {
+  .catch(err => {
+    console.error(err);
     status.textContent = "Gagal load data 😭";
   });
