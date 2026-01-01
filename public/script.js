@@ -1,19 +1,21 @@
-const list = document.getElementById("list");
+const list = document.getElementById("anime-list");
 
-fetch("https://api.sansekai.my.id/api/anime/api/latest")
-  .then(r => r.json())
+fetch("/api/latest")
+  .then(res => res.json())
   .then(data => {
     list.innerHTML = "";
-    data.data.forEach(anime => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <a href="detail.html?id=${anime.id}">
-          ${anime.title}
-        </a>
-      `;
-      list.appendChild(li);
+
+    data.forEach(anime => {
+      const a = document.createElement("a");
+      a.href = `detail.html?id=${anime.id}`;
+      a.textContent = anime.judul;
+      a.style.display = "block";
+      a.style.color = "#fff";
+      a.style.marginBottom = "8px";
+      list.appendChild(a);
     });
   })
-  .catch(() => {
+  .catch(err => {
     list.innerHTML = "Gagal load data 😭";
+    console.error(err);
   });
