@@ -1,6 +1,6 @@
 const list = document.getElementById("list");
 
-fetch("https://api.sansekai.my.id/api/anime/latest")
+fetch("https://api.sansekai.my.id/api/anime/api/latest")
   .then(r => r.json())
   .then(data => {
     list.innerHTML = "";
