@@ -8,24 +8,34 @@ if (!id) {
 
 fetch(`/api/detail?urlId=${id}`)
   .then(res => res.json())
-  .then(data => {
-    document.getElementById("title").innerText =
-      data.judul || "Tidak ada judul";
+  .then(res => {
+    // 🔥 NORMALISASI DATA
+    const data = res.data || res;
 
-    document.getElementById("cover").src = data.cover || "";
+    document.getElementById("title").innerText =
+      data.judul ?? "Tidak ada judul";
+
+    if (data.cover) {
+      document.getElementById("cover").src = data.cover;
+    }
 
     document.getElementById("sinopsis").innerText =
-      data.sinopsis || "Tidak ada sinopsis";
+      data.sinopsis ?? "Tidak ada sinopsis";
 
     const list = document.getElementById("episode-list");
     list.innerHTML = "";
 
-    if (data.episode && data.episode.length > 0) {
-      data.episode.forEach(ep => {
+    const episodes =
+      data.episode?.list ||
+      data.episode ||
+      [];
+
+    if (Array.isArray(episodes) && episodes.length > 0) {
+      episodes.forEach(ep => {
         const li = document.createElement("li");
         li.innerHTML = `
           <a href="${ep.url}" target="_blank" style="color:#93c5fd">
-            ${ep.judul}
+            ${ep.judul || "Episode"}
           </a>
         `;
         list.appendChild(li);
