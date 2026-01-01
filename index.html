@@ -1,15 +1,24 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Anime Web</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+const BASE = "https://api.sansekai.my.id/api";
+const PROXY = "https://corsproxy.io/?";
 
-  <h1>Anime Terbaru</h1>
-  <div id="anime-list"></div>
+fetch(PROXY + BASE + "/anime/latest")
+  .then(res => res.json())
+  .then(json => {
+    const list = document.getElementById("anime-list");
 
-  <script src="script.js"></script>
-</body>
-</html>
+    json.data.forEach(anime => {
+      const div = document.createElement("div");
+      div.className = "card";
+
+      div.innerHTML = `
+        <img src="${anime.thumbnail}">
+        <h4>${anime.title}</h4>
+      `;
+
+      list.appendChild(div);
+    });
+  })
+  .catch(err => {
+    document.body.innerHTML = "API error 😭";
+    console.error(err);
+  });
