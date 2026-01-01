@@ -1,41 +1,32 @@
 const API_URL = "https://animedoku.vercel.app/api/latest";
 
-const listEl = document.getElementById("list");
-const statusEl = document.getElementById("status");
-
 fetch(API_URL)
   .then(res => {
-    if (!res.ok) {
-      throw new Error("HTTP error " + res.status);
-    }
+    if (!res.ok) throw new Error("API error " + res.status);
     return res.json();
   })
   .then(data => {
-    console.log("API DATA:", data);
-
     if (!Array.isArray(data)) {
-      statusEl.textContent = "Format data tidak valid 😭";
+      document.getElementById("status").textContent =
+        "Data bukan array. Cek API.";
       return;
     }
 
-    statusEl.textContent = "";
-    listEl.innerHTML = "";
+    document.getElementById("status").textContent = "";
+    const list = document.getElementById("list");
 
     data.forEach(anime => {
       const card = document.createElement("div");
       card.className = "card";
-
       card.innerHTML = `
-  <a href="detail.html?url=${encodeURIComponent(anime.url)}">
-    <img src="${anime.cover}">
-    <h3>${anime.judul}</h3>
-  </a>
-`;
-
-      listEl.appendChild(card);
+        <img src="${anime.cover}">
+        <h3>${anime.judul}</h3>
+      `;
+      list.appendChild(card);
     });
   })
   .catch(err => {
+    document.getElementById("status").textContent =
+      "JS / Path error: " + err.message;
     console.error(err);
-    statusEl.textContent = "Gagal load data 😭";
   });
