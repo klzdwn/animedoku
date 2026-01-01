@@ -7,19 +7,26 @@ const list = document.getElementById("list");
 fetch(API)
   .then(res => res.json())
   .then(data => {
-    console.log("API DATA:", data);
-
     if (!Array.isArray(data)) {
-      status.textContent = "Data API bukan array";
+      status.textContent = "Data API tidak valid";
       return;
     }
 
     status.textContent = "";
+    list.innerHTML = "";
 
     data.forEach(anime => {
-      const div = document.createElement("div");
-      div.textContent = anime.judul;
-      list.appendChild(div);
+      if (!anime.slug) return;
+
+      const a = document.createElement("a");
+      a.href = `detail.html?slug=${anime.slug}`;
+      a.textContent = anime.judul;
+      a.style.display = "block";
+      a.style.padding = "6px 0";
+      a.style.color = "white";
+      a.style.textDecoration = "none";
+
+      list.appendChild(a);
     });
   })
   .catch(err => {
