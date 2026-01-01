@@ -1,23 +1,18 @@
 
 const params = new URLSearchParams(window.location.search);
-const slug = params.get("slug");
+const url = params.get("url");
 
-if (!slug) {
-  document.body.innerHTML = "Slug tidak ditemukan 😭";
+if (!url) {
+  document.body.innerHTML = "URL anime tidak ditemukan 😭";
+  throw new Error("no url");
 }
 
-fetch("https://animedoku.vercel.app/api/detail?slug=" + slug)
+fetch("https://animedoku.vercel.app/api/detail?url=" + encodeURIComponent(url))
   .then(res => res.json())
   .then(json => {
-    console.log("DETAIL API:", json);
+    console.log("DETAIL:", json);
 
-    // AMBIL DATA YANG BENAR
     const data = json.data || json;
-
-    if (!data || !data.judul) {
-      document.body.innerHTML = "Data detail kosong 😭";
-      return;
-    }
 
     document.getElementById("title").textContent = data.judul;
     document.getElementById("cover").src = data.cover;
