@@ -1,23 +1,57 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: white;
-  padding: 16px;
+
+* {
+  box-sizing: border-box;
 }
 
-#anime-list {
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0f172a;
+  color: #ffffff;
+}
+
+header {
+  padding: 16px;
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+}
+
+h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+main {
+  padding: 12px;
+}
+
+#status {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
 .card {
-  background: #1c1c1c;
-  padding: 8px;
+  background: #020617;
   border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #1e293b;
 }
 
 .card img {
   width: 100%;
-  border-radius: 6px;
+  display: block;
+}
+
+.card h3 {
+  font-size: 13px;
+  padding: 8px;
+  margin: 0;
+  line-height: 1.3;
 }
