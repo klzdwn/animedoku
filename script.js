@@ -1,0 +1,23 @@
+const BASE = "https://api.sansekai.my.id/api";
+
+fetch(`${BASE}/anime/latest`)
+  .then(res => res.json())
+  .then(json => {
+    const list = document.getElementById("anime-list");
+
+    json.data.forEach(anime => {
+      const div = document.createElement("div");
+      div.className = "card";
+
+      div.innerHTML = `
+        <img src="${anime.thumbnail}">
+        <h4>${anime.title}</h4>
+      `;
+
+      list.appendChild(div);
+    });
+  })
+  .catch(err => {
+    document.body.innerHTML = "API error 😭";
+    console.error(err);
+  });
