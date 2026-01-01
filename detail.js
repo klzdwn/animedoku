@@ -2,15 +2,17 @@
 const params = new URLSearchParams(window.location.search);
 const url = params.get("url");
 
+console.log("DETAIL PARAM URL:", url);
+
 if (!url) {
   document.body.innerHTML = "URL anime tidak ditemukan 😭";
-  throw new Error("no url");
+  throw new Error("no url param");
 }
 
 fetch("https://animedoku.vercel.app/api/detail?url=" + encodeURIComponent(url))
   .then(res => res.json())
   .then(json => {
-    console.log("DETAIL:", json);
+    console.log("DETAIL API:", json);
 
     const data = json.data || json;
 
