@@ -6,7 +6,8 @@ const list = document.getElementById("list");
 fetch(API)
   .then(res => res.json())
   .then(json => {
-    const data = json.data || json; // jaga-jaga
+    // beberapa endpoint pakai { data: [] }
+    const data = json.data || json;
 
     if (!Array.isArray(data)) {
       status.textContent = "Data API tidak valid";
@@ -17,17 +18,18 @@ fetch(API)
     list.innerHTML = "";
 
     data.forEach(anime => {
-      if (!anime.url) return;
+      if (!anime.url || !anime.judul) return;
 
-      const a = document.createElement("a");
-      a.href = `detail.html?url=${encodeURIComponent(anime.url)}`;
-      a.textContent = anime.judul;
-      a.style.display = "block";
-      a.style.color = "white";
-      a.style.padding = "6px 0";
-      a.style.textDecoration = "none";
+      const div = document.createElement("div");
+      div.className = "item";
 
-      list.appendChild(a);
+      div.innerHTML = `
+        <a href="detail.html?url=${encodeURIComponent(anime.url)}">
+          ${anime.judul}
+        </a>
+      `;
+
+      list.appendChild(div);
     });
   })
   .catch(err => {
