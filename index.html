@@ -1,67 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <title>AnimeDoku</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-    }
-    h1 {
-      padding: 16px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      padding: 12px;
-    }
-    .card {
-      background: #020617;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .card img {
-      width: 100%;
-      display: block;
-    }
-    .card h3 {
-      font-size: 14px;
-      padding: 8px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<h1>🔥 Anime Terbaru</h1>
-<div class="grid" id="list"></div>
+  <header>
+    <h1>🔥 Anime Terbaru</h1>
+  </header>
 
-<script>
-fetch("https://animedoku.vercel.app/api/latest")
-  .then(res => res.json())
-  .then(json => {
-    const list = document.getElementById("list");
+  <main>
+    <div id="status">Loading...</div>
+    <div class="grid" id="list"></div>
+  </main>
 
-    json.data.forEach(anime => {
-      const card = document.createElement("div");
-      card.className = "card";
-
-      card.innerHTML = `
-        <img src="${anime.cover}" />
-        <h3>${anime.judul}</h3>
-      `;
-
-      list.appendChild(card);
-    });
-  })
-  .catch(err => {
-    document.body.innerHTML = "Frontend error 😭";
-    console.error(err);
-  });
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
