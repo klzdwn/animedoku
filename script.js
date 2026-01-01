@@ -26,9 +26,11 @@ fetch(API_URL)
       card.className = "card";
 
       card.innerHTML = `
-        <img src="${anime.cover}" alt="${anime.judul}">
-        <h3>${anime.judul}</h3>
-      `;
+  <a href="detail.html?slug=${anime.slug}">
+    <img src="${anime.cover}">
+    <h3>${anime.judul}</h3>
+  </a>
+`;
 
       listEl.appendChild(card);
     });
