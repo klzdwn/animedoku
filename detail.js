@@ -1,24 +1,34 @@
-
 const params = new URLSearchParams(window.location.search);
-const slug = params.get("slug");
+const url = params.get("url");
 
-if (!slug) {
-  document.body.innerHTML = "Slug tidak ditemukan";
-  throw new Error("no slug");
+if (!url) {
+  document.body.innerHTML = "URL anime tidak ditemukan";
+  throw new Error("no url");
 }
 
-fetch(`https://animedoku.vercel.app/api/detail?slug=${slug}`)
+fetch("https://api.sansekai.my.id/api/anime/detail?url=" + encodeURIComponent(url))
   .then(res => res.json())
   .then(json => {
-    const data = json.data;
-    if (!data) {
-      document.body.innerHTML = "Detail tidak tersedia";
+    const data = json.data || json;
+
+    document.getElementById("title").textContent = data.judul;
+    document.getElementById("cover").src = data.cover;
+    document.getElementById("sinopsis").textContent =
+      data.sinopsis || "Tidak ada sinopsis";
+
+    const ul = document.getElementById("episodes");
+    ul.innerHTML = "";
+
+    if (!Array.isArray(data.episode)) {
+      ul.innerHTML = "<li>Episode tidak tersedia</li>";
       return;
     }
 
-    document.getElementById("title").textContent = data.judul;
-    document.getElementById("sinopsis").textContent =
-      data.sinopsis || "Tidak ada sinopsis";
+    data.episode.forEach(ep => {
+      const li = document.createElement("li");
+      li.textContent = ep.judul;
+      ul.appendChild(li);
+    });
   })
   .catch(err => {
     console.error(err);
